@@ -6,5 +6,29 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
-		<context:component-scan base-package="com.tis.sample"/>
+	<context:component-scan base-package="com.tis.sample"/>
+	
+	<!-- [1] DataSource =========================== -->
+	<bean id="jndiDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="java:comp/env/oracle/myshop" />
+	</bean>	
+	<!-- [1] DataSource 위 아래 둘중 하나 사용 -->
+	<!-- <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${driver}"></property>
+		<property name="url" value="${url}"></property>
+		<property name="username" value="${user}"></property>
+		<property name="password" value="${pwd}"></property>
+	</bean>  -->
+	
+	<!-- [2] SqlSessionFactoryBean ================ -->
+	<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="jndiDataSource"/>
+		<property name="configLocation" value="classpath:spring/mybatis-config.xml"/>
+	</bean>
+	
+	<!-- [3] SqlSessionTemplate =================== -->
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactoryBean" />
+	</bean>
+	
 </beans>

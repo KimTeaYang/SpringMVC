@@ -35,6 +35,7 @@ public class SampleTests {
 		log.info("--------------");
 		log.info(rest.getChef());
 		log.info("--------------");
+		assertNotNull(sv);
 		log.info(sv);
 		log.info("--------------");
 		log.info(sv.getEmp());
