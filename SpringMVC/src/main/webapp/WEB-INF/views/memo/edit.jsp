@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!doctype html>
 <html>
 <head>
@@ -25,13 +25,13 @@
 		<div class="rows">
 			<div class="col-md-8 col-md-offset-2">
 
-				<form role="form" name="user" method="post" action="memo.editEnd.do"
+				<form role="form" name="memo" method="post" action="edit"
 					class="form-horizontal">
 
 					<h1 class="text text-center">:::Spring's 한줄 메모장 Edit:::</h1>
 					<div>
 						<div style="min-height: 250px;">
-							<img src="Upload/${memo.filename}"
+							<img src="../images/${memo.filename}"
 								class="img-thumbnail img-responsive">
 						</div>
 					</div>
@@ -44,16 +44,15 @@
 						<label for="msg"> 메모내용: </label> 
 						<input type="text"
 						name="msg" id="msg" class="form-control" value="${memo.msg}" /> 
-						<label
-						for="wdate">작성일:</label> <span>${memo.wdate} [${memo.cip}]</span>
+						<label for="wdate">작성일:</label> <span><fmt:formatDate value="${memo.wdate}" pattern="yyyy-MM-dd hh:mm:ss"/></span>
 						
 					<p></p>
 
 					<button type="submit" class="btn btn-primary">
 						<i class="fa fa-edit fa-fw fa-lg"></i> Edit
 					</button>
-					<a href="memo.list.do" class="btn btn-danger"> <i
-						class="fa fa-align-justify fa-fw fa-lg"></i> List
+					<a href="memos" class="btn btn-danger"> 
+					<i class="fa fa-align-justify fa-fw fa-lg"></i> List
 					</a>
 				</form>
 			</div>

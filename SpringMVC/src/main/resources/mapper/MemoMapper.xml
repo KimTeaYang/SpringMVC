@@ -7,4 +7,41 @@
 	<select id="memoCount" resultType="int">
 		select count(*) from memo
 	</select>
+	
+	<!-- sql에서 자주 사용하는 쿼리문을 조각 sql 엘리먼트에 기술하여
+	필요할 때 include해서 사용하자 -->
+	<sql id="memo_col">
+		idx,name,msg,wdate,nvl(filename,'noimage.JPG') filename
+	</sql>
+	
+	<insert id="createMemo" parameterType="memoVO">
+		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
+			select memo_seq.nextval from dual
+		</selectKey>
+		insert into memo(idx,name,msg,wdate,filename) values(#{idx},#{name},#{msg:VARCHAR},sysdate,#{filename:VARCHAR})
+	</insert>
+	
+	<!-- 부등호를 태그로 인식시키지 않기 위해 CDATA를 사용 -->
+	<select id="listMemo" parameterType="map" resultType="memoVO">
+		<![CDATA[
+		select * from (select a.*,rownum rn from (select 
+		]]>  
+		<include refid="memo_col"/> 
+		<![CDATA[ 
+		from memo order by idx desc) a)
+		where rn >= #{start} and rn <= #{end}
+		]]>
+	</select>
+	
+	<delete id="deleteMemo" parameterType="int">
+		delete from memo where idx=#{idx}
+	</delete>
+	
+	<select id="getMemo" parameterType="int" resultType="memoVO">
+		select <include refid="memo_col"/> from memo where idx=#{idx}
+	</select>
+	
+	<update id="updateMemo" parameterType="memoVO">
+		update memo set name=#{name},msg=#{msg:VARCHAR},filename=#{filename:VARCHAR} where idx=#{idx}
+	</update>
 </mapper>

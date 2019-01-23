@@ -8,9 +8,10 @@ import lombok.Data;
 @Data
 public class MemoVO implements Serializable{
 	
-	private String idx;
+	private int idx;
 	private String name;
 	private String msg;
+	private String filename;
 	private Date wdate;
 	
 }

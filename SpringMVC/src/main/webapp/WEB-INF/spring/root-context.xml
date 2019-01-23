@@ -13,6 +13,7 @@
 		<property name="jndiName" value="java:comp/env/oracle/myshop" />
 	</bean>	
 	<!-- [1] DataSource 위 아래 둘중 하나 사용 -->
+	<!-- <context:property-placeholder location="classpath:경로맞춰서"/> -->
 	<!-- <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="${driver}"></property>
 		<property name="url" value="${url}"></property>
