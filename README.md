@@ -124,7 +124,7 @@ File Upload
 	 [2] WEB-INF/spring/appServlet/servlet-context.xml에
 	   		multipartResolver 빈을 등록
 	  		[주의] 빈의 id는 반드시 multipartResolver로 주자.
-	  ------------------------------------------------------
+	 
 	   <beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 			<beans:property name="maxUploadSize" value="-1" />
 			<beans:property name="defaultEncoding" value="UTF-8"/>
