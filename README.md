@@ -11,6 +11,7 @@ spring version => 5.0.7.RELEASE
 java version => 1.8
 
 servlet version => 3.1.0
+
 <dependency>
 	<groupId>javax.servlet</groupId>
 	<artifactId>javax.servlet-api</artifactId>
@@ -22,6 +23,7 @@ servlet version => 3.1.0
 -------------------------------------------------------------------------------------------------------------------------
 root-context.xml에서 DB 설정 하도록 한다.
 <context:component-scan base-package="com"/> => com package에 해당하는 component들을 scan한다.
+
 <!-- [1] DataSource =========================== -->
 	<bean id="jndiDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
 		<property name="jndiName" value="java:comp/env/oracle/myshop" />
@@ -45,23 +47,33 @@ root-context.xml에서 DB 설정 하도록 한다.
 	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg ref="sqlSessionFactoryBean" />
 	</bean>
+	
 ------------------------------------------------------------------------------------------------------------------------
 servlet-context.xml에서 MVC에 관련된 것
-<context:component-scan base-package="com" /> com package에 해당하는 component들을 scan한다.
 
-<annotation-driven /> Tag는 RequestMappingHandlerMapping/RequestMappingHandlerAdapter 클래스를
+<context:component-scan base-package="com" />
+ com package에 해당하는 component들을 scan한다.
+
+<annotation-driven /> 
+Tag는 RequestMappingHandlerMapping/RequestMappingHandlerAdapter 클래스를
 빈으로 등록해준다. 이 두 클래스는 Controller Annotation이 적용된 클래스를 컨트롤러로 사용할 수 있도록 해준다.
 
-<resources mapping="/resources/**" location="/resources/" /> 해당 폴더에 있는 파일들은 action 되지 않도록 막아준다.
+<resources mapping="/resources/**" location="/resources/" /> 
 <resources mapping="/js/**" location="/js/" />
+해당 폴더에 있는 파일들은 action 되지 않도록 막아준다.
 	
-<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"> @Controller에서 view로 갈 때
-		<beans:property name="prefix" value="/WEB-INF/views/" /> return된 String 값 전에 해당 value를 붙여준다
-		<beans:property name="suffix" value=".jsp" /> return된 String 값 후에 해당 value를 붙여준다
+<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"> 
+		<beans:property name="prefix" value="/WEB-INF/views/" /> 
+		<beans:property name="suffix" value=".jsp" /> 
 </beans:bean>
+
+@Controller에서 view로 갈 때
+prefix property는 return된 String 값 전에 해당 value를 붙여준다.
+suffix property는 return된 String 값 후에 해당 value를 붙여준다.
 
 -------------------------------------------------------------------------------------------------------------------------
 web.xml에 관련된 내용
+
 <servlet>
 		<servlet-name>appServlet</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -92,6 +104,7 @@ DispatcherServlet이 FrontController역할을 하는 Servlet ervlet-context.xml 
 		<filter-name>SpringEncodeFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	
 => POST방식일 경우 한글 인코딩처리 필터 등록 필터는 Annotation으로 처리하거나 혹은 web.xml에서 처리한다.
 
 -------------------------------------------------------------------------------------------------------------------------
