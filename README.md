@@ -150,3 +150,46 @@ View input에 등록한 file을 Controller에서 업로드 할 때
    
 -------------------------------------------------------------------------------------------------------------------------
 File Download
+
+//ResponseEntity타입 : 데이터와 함께 헤더 상태 메시지를 전달하고자 할 때 사용
+	//HTTP헤더를 다뤄야 할 경우 ResponseEntity를 통해 헤더정보나 데이터를 전달 할 수 있다.
+	@RequestMapping(value="/fileDown",produces=MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	@ResponseBody
+	public ResponseEntity<Resource> download(HttpServletRequest req,@RequestHeader("User-Agent") String userAgent,
+			@RequestParam("fname") String fname) {
+		log.info("fname="+fname+", userAgent=="+userAgent);
+		
+		String up_dir = req.getServletContext().getRealPath("/images");
+		String filePath = up_dir+File.separator+fname;
+		
+		log.info("filePath="+filePath);
+		
+		Resource resource = new FileSystemResource(filePath);
+		
+		if(!resource.exists()) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		boolean checkIE = (userAgent.indexOf("MSIE") > -1 || userAgent.indexOf("Trident") > -1);
+
+		String downloadName = null;
+
+		try {
+			if (checkIE) {
+				//IE인 경우
+				downloadName = URLEncoder.encode(fname, "UTF8").replaceAll("\\+", " ");
+			} else {
+				//그 외
+				downloadName = new String(fname.getBytes("UTF-8"), "ISO-8859-1");
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Disposition", "attachment; filename="+downloadName);
+		
+		return new ResponseEntity<Resource>(resource,headers,HttpStatus.OK);
+	}
+
