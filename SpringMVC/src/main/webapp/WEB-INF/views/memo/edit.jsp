@@ -54,10 +54,19 @@
 					<a href="memos" class="btn btn-danger"> 
 					<i class="fa fa-align-justify fa-fw fa-lg"></i> List
 					</a>
+					<button type="button" onclick="fileDown('${memo.filename}')" class="btn btn-success">
+						<i class="fa fa-edit fa-fw fa-lg"></i> Download
+					</button>
 				</form>
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript">
+		function fileDown(fname){
+			// IE의 경우 한글에 해당하는 부분을 자바스크립트에서 encodeURIComponent(); 처리를 해준다.
+			location.href="../fileDown?fname="+encodeURIComponent(fname);
+		}
+	</script>
 </body>
 
 </html>
