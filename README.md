@@ -24,7 +24,9 @@ servlet version => 3.1.0
 root-context.xml에서 DB 설정 하도록 한다.
 <context:component-scan base-package="com"/> => com package에 해당하는 component들을 scan한다.
 
-<!-- [1] DataSource =========================== -->
+
+
+	<!-- [1] DataSource =========================== -->
 	<bean id="jndiDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
 		<property name="jndiName" value="java:comp/env/oracle/myshop" />
 	</bean>	
@@ -151,7 +153,7 @@ View input에 등록한 file을 Controller에서 업로드 할 때
 -------------------------------------------------------------------------------------------------------------------------
 File Download
 
-//ResponseEntity타입 : 데이터와 함께 헤더 상태 메시지를 전달하고자 할 때 사용
+	//ResponseEntity타입 : 데이터와 함께 헤더 상태 메시지를 전달하고자 할 때 사용
 	//HTTP헤더를 다뤄야 할 경우 ResponseEntity를 통해 헤더정보나 데이터를 전달 할 수 있다.
 	@RequestMapping(value="/fileDown",produces=MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	@ResponseBody
